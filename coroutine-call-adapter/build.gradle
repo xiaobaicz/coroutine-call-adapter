@@ -1,0 +1,64 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'maven-publish'
+}
+
+group='com.github.XiaoBaiCZ'
+
+final vCode = 220716    // yyMMdd
+final versionStr = '2.9.0'   // big.small.hotfix
+
+android {
+    compileSdk 32
+
+    defaultConfig {
+        minSdk 21
+        targetSdk 32
+        versionCode vCode
+        versionName versionStr
+
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.13.2'
+
+    compileOnly "com.squareup.retrofit2:retrofit:$versionStr"
+    testImplementation "com.squareup.retrofit2:retrofit:$versionStr"
+
+    compileOnly 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1'
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            // Creates a Maven publication called "release".
+            release(MavenPublication) {
+                // Applies the component for the release build variant.
+                from components.release
+
+                // You can then customize attributes of the publication as shown below.
+                groupId = 'cc.xiaobaicz.adapter'
+                artifactId = 'CoroutineCallAdapter'
+                version = versionStr
+            }
+        }
+    }
+}
