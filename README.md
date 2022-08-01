@@ -1,14 +1,36 @@
-# Coroutine Call Adapter
+> Retrofit 协程适配器
 
-## Service Interface
-~~~ Kotlin
+支持三种调用方式
+- suspend 调用无 try catch
+- async await 并发无 try catch
+- flow 流式调用
+
+### 引入方式
+``` Gradle
+// root build.gradle
+allprojects {
+	repositories {
+		...
+		maven { url 'https://jitpack.io' }
+	}
+}
+```
+``` Gradle
+// module build.gradle
+dependencies {
+        implementation 'com.github.XiaoBaiCZ:CoroutineCallAdapter:2.9.0'
+}
+```
+
+### Service Interface
+``` Kotlin
 interface Service {
     // CoroutineCall<T>
     @GET("/")
     fun index(): CoroutineCall<ResponseBody>
 }
-~~~
-~~~ Kotlin
+```
+``` Kotlin
 object ServiceHelper {
     private val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl("https://www.google.com/")
@@ -18,9 +40,9 @@ object ServiceHelper {
 
     val service get() = retrofit.create<Service>()
 }
-~~~
+```
 ### Coroutine Suspend
-~~~ Kotlin
+``` Kotlin
 class MainActivity : AppCompatActivity() {
 
     private val service by lazy {
@@ -42,9 +64,9 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
-~~~
+```
 ### Coroutine Async
-~~~ Kotlin
+``` Kotlin
 class MainActivity : AppCompatActivity() {
 
     private val service by lazy {
@@ -68,9 +90,9 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
-~~~
+```
 ### Coroutine Flow
-~~~ Kotlin
+``` Kotlin
 class MainActivity : AppCompatActivity() {
 
     private val service by lazy {
@@ -94,4 +116,4 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
-~~~
+```
