@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
             }.catch { t ->
                 t.printStackTrace()
             }.collect { content ->
-                bind.text = Html.fromHtml(content)
+                println(content)
             }
         }
     }
