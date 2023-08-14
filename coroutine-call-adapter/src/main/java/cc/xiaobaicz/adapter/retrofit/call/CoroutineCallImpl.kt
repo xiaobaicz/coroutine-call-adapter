@@ -1,30 +1,31 @@
 package cc.xiaobaicz.adapter.retrofit.call
 
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import retrofit2.HttpException
 import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.resume
 import kotlinx.coroutines.flow.flow as ktFlow
 
 internal class CoroutineCallImpl<T>(private val call: Call<T>) : CoroutineCall<T> {
 
-    override suspend fun call(): CoroutineCall.Result<T> = suspendCancellableCoroutine {
-        /**
-         * The request uses the OkHttp Client thread pool.
-         * The coroutine environment only affects the resulting response.
-         */
-        call.enqueue(object : Callback<T> {
-            override fun onResponse(call: Call<T>, response: Response<T>) {
-                it.resume(CoroutineCall.Result(response.body()))
+    override suspend fun call(): CoroutineCall.Result<T> {
+        return withContext(Dispatchers.IO) {
+            val response = call.execute()
+            try {
+                if (response.isSuccessful)
+                    CoroutineCall.Result(response.body())
+                else
+                    CoroutineCall.Result(throwable = HttpException(response))
+            } catch (t: Throwable) {
+                CoroutineCall.Result(throwable = t)
             }
-
-            override fun onFailure(call: Call<T>, t: Throwable) {
-                it.resume(CoroutineCall.Result(throwable = t))
-            }
-        })
+        }
     }
 
     override suspend fun async(

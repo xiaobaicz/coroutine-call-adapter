@@ -18,7 +18,7 @@ allprojects {
 ``` Gradle
 // module build.gradle
 dependencies {
-        implementation 'com.github.XiaoBaiCZ:CoroutineCallAdapter:2.9.0'
+        implementation 'com.github.XiaoBaiCZ:CoroutineCallAdapter:2.9.2'
 }
 ```
 

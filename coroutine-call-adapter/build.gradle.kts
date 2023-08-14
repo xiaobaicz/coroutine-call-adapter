@@ -52,7 +52,7 @@ afterEvaluate {
                 // You can then customize attributes of the publication as shown below.
                 groupId = "cc.xiaobaicz.adapter"
                 artifactId = "CoroutineCallAdapter"
-                version = "2.9.1"
+                version = "2.9.2"
             }
         }
     }
