@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "CoroutineCallAdapter"
-include ':sample'
-include ':coroutine-call-adapter'
+include(":sample")
+include(":coroutine-call-adapter")
