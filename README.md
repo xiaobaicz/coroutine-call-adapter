@@ -18,7 +18,7 @@ allprojects {
 ``` Gradle
 // module build.gradle
 dependencies {
-        implementation 'com.github.XiaoBaiCZ:CoroutineCallAdapter:2.9.2'
+        implementation 'com.github.xiaobai-cz:coroutine-call-adapter:2.9.3'
 }
 ```
 
@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         MainScope().launch {
             // call service
-            val index = service.index().async(this)
+            val index = async(service.index())
             // await response
             val (data, throwable) = index.await()
             // handle throwable?

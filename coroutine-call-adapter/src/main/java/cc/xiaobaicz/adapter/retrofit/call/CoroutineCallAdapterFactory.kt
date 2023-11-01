@@ -20,7 +20,7 @@ object CoroutineCallAdapterFactory : CallAdapter.Factory() {
     override fun get(returnType: Type, annotations: Array<out Annotation>, retrofit: Retrofit): CallAdapter<*, *>? {
         if (hasSkipCallbackExecutor(annotations))
             return null
-        if (isSuspendCall(returnType))
+        if (!isSuspendCall(returnType))
             return null
         return SuspendCallAdapter(getParameterUpperBound(0, returnType as ParameterizedType))
     }
@@ -33,7 +33,7 @@ object CoroutineCallAdapterFactory : CallAdapter.Factory() {
         return false
     }
 
-    private fun isSuspendCall(returnType: Type): Boolean = getRawType(returnType) != CoroutineCall::class.java
+    private fun isSuspendCall(returnType: Type): Boolean = getRawType(returnType) == CoroutineCall::class.java
 
     private class SuspendCallAdapter(private val type: Type) : CallAdapter<Any, CoroutineCall<Any>> {
         override fun responseType(): Type {

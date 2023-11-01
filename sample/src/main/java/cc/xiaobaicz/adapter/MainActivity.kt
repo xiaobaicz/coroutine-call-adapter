@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.text.Html
 import androidx.appcompat.app.AppCompatActivity
 import cc.xiaobaicz.adapter.databinding.ActivityMainBinding
+import cc.xiaobaicz.adapter.retrofit.call.async
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         MainScope().launch {
-            val index = service.index().async(this)
+            val index = async(service.index())
             val (data, throwable) = index.await()
             throwable?.apply { printStackTrace() }
             data?.apply {

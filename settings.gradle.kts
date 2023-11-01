@@ -12,6 +12,6 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "CoroutineCallAdapter"
+rootProject.name = "coroutine-call-adapter"
 include(":sample")
 include(":coroutine-call-adapter")
